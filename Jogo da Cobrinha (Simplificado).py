@@ -31,7 +31,7 @@ class snake(pygame.sprite.Sprite):
         time = 0
 
         pygame.sprite.Sprite.__init__(self)
-        self.ImageSnake = pygame.image.load('images2/corpo.png')
+        self.ImageSnake = pygame.image.load('images/corpo.png')
 
         self.rect = self.ImageSnake.get_rect()
         self.rect.centerx = weight / 2
