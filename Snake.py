@@ -4,11 +4,11 @@ pygame.init()
 
 # ------------ sound configurations ------------ #
 
-eating_apple = pygame.mixer.Sound("sounds/apple.wav")
-wrecking_intro = pygame.mixer.Sound("sounds/glass.wav")
-game_over_sound = pygame.mixer.Sound("sounds/gameover.wav")
-intro_sound = pygame.mixer.Sound("sounds/intro_sound.wav")
-load_error = pygame.mixer.Sound("sounds/load_error.wav")
+eating_apple = pygame.mixer.Sound("Sounds/apple.wav")
+wrecking_intro = pygame.mixer.Sound("Sounds/glass.wav")
+game_over_sound = pygame.mixer.Sound("Sounds/gameover.wav")
+intro_sound = pygame.mixer.Sound("Sounds/intro_sound.wav")
+load_error = pygame.mixer.Sound("Sounds/load_error.wav")
 
 pygame.mixer.music.set_volume(1)
 
@@ -36,19 +36,112 @@ pixeled_large_font = pygame.font.SysFont("Pixeled Regular", 80)
 normal_large_font = pygame.font.SysFont(None, 50)
 normal_big_font = pygame.font.SysFont(None, 80)
 
-display.fill(BLACK)
 block_size = 10
 
-snake_head_sprite = pygame.image.load("images/snake_head.png")
-apple_sprite = pygame.image.load("images/apple.png")
+snake_head_sprite = pygame.image.load("Images/snake_head.png")
+apple_sprite = pygame.image.load("Images/apple.png")
 
 clock = pygame.time.Clock()
 
 # ------------ pattern general configurations ------------ #
 
+def begin():
+
+    display.fill(WHITE)
+    message_to_screen("Jump Intro?", BLACK, 0, -200, True, 5)
+    message_to_screen("Yes", BLACK, -100, 100, True, 5)
+    message_to_screen("No", BLACK, 100, 100, True, 5)
+    pygame.display.update()
+
+    limit_colors = 170
+    one_click = True
+
+    color_red = limit_colors
+    color_green = limit_colors
+    color_blue = limit_colors
+
+    change_red = 1
+    change_green = 2
+    change_blue = 4
+
+    while True:
+
+        mouse = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                end()
+
+        if 380 > mouse[0] > 320 and 420 > mouse[1] > 380:
+
+            if click[0] and one_click:
+                pygame.mixer.music.load("Sounds/menu.wav")
+                pygame.mixer.music.play(-1)
+                menu(0)
+                one_click = False
+
+            message_to_screen("Yes", (color_red, color_green, color_blue), -100, 100, True, 5)
+            pygame.display.update()
+
+            color_red += change_red
+            color_green += change_green
+            color_blue += change_blue
+
+            if color_red >= limit_colors or change_red < 0:
+                change_red *= -1
+                color_red += change_red
+
+            if color_green >= limit_colors or color_green < 0:
+                change_green *= -1
+                color_green += change_green
+
+            if color_blue >= limit_colors or color_blue < 0:
+                change_blue *= -1
+                color_blue += change_blue
+
+        else:
+
+            message_to_screen("Yes", BLACK, -100, 100, True, 5)
+            pygame.display.update()
+            one_click = True
+
+        if 570 > mouse[0] > 530 and 420 > mouse[1] > 380:
+
+            if click[0] and one_click:
+                intro1()
+                one_click = False
+
+            message_to_screen("No", (color_red, color_green, color_blue), 100, 100, True, 5)
+            pygame.display.update()
+
+            color_red += change_red
+            color_green += change_green
+            color_blue += change_blue
+
+            if color_red >= limit_colors or change_red < 0:
+                change_red *= -1
+                color_red += change_red
+
+            if color_green >= limit_colors or color_green < 0:
+                change_green *= -1
+                color_green += change_green
+
+            if color_blue >= limit_colors or color_blue < 0:
+                change_blue *= -1
+                color_blue += change_blue
+
+        else:
+
+            message_to_screen("No", BLACK, 100, 100, True, 5)
+            pygame.display.update()
+            one_click = True
+
 # ------------ intros ------------ #
 
 def intro1():
+    display.fill(BLACK)
 
     limit_colors = 170
 
@@ -146,7 +239,7 @@ def intro1():
     message_to_screen("Loading", WHITE, 0, 80, True, 5)
     pygame.display.update()
     pygame.time.wait(1000)
-    image_intro = pygame.image.load('images/crash_load.png')
+    image_intro = pygame.image.load("Images/crash_load.png")
 
     fall_screen = 1
     while fall_screen <= 600:
@@ -186,12 +279,12 @@ def intro1():
 
 def intro2():
 
-    image_developer_1 = pygame.image.load('images/developer_1.png')
-    image_developer_2 = pygame.image.load('images/developer_2.png')
-    image_developer_3 = pygame.image.load('images/developer_3.png')
-    image_developer_4 = pygame.image.load('images/developer_4.png')
-    image_developer_5 = pygame.image.load('images/developer_5.png')
-    image_developer_head = pygame.image.load('images/head_developer.png')
+    image_developer_1 = pygame.image.load('Images/developer_1.png')
+    image_developer_2 = pygame.image.load('Images/developer_2.png')
+    image_developer_3 = pygame.image.load('Images/developer_3.png')
+    image_developer_4 = pygame.image.load('Images/developer_4.png')
+    image_developer_5 = pygame.image.load('Images/developer_5.png')
+    image_developer_head = pygame.image.load('Images/head_developer.png')
 
     for i in range (301):
 
@@ -424,9 +517,9 @@ def intro2():
 
 def intro3():
 
-    uea_image = pygame.image.load('images/UEA.jpg')
-    est_image = pygame.image.load('images/EST.png')
-    pyg_image = pygame.image.load('images/pygame.png')
+    uea_image = pygame.image.load('Images/UEA.jpg')
+    est_image = pygame.image.load('Images/EST.png')
+    pyg_image = pygame.image.load('Images/pygame.png')
 
     for transition in range (1500):
 
@@ -449,8 +542,8 @@ def intro3():
 
 def menu(opening):
 
-    snake_icon = pygame.image.load('images/snake_cute.png')
-    snake_name = pygame.image.load('images/snake_name.png')
+    snake_icon = pygame.image.load('Images/snake_cute.png')
+    snake_name = pygame.image.load('Images/snake_name.png')
 
     if opening:
 
@@ -1312,12 +1405,25 @@ def SnakeGame(mode, difficulty, wall):
 
     # ------------ pattern game configurations ------------ #
 
+    pygame.mixer.music.load("Sounds/game_sound.wav")
+    pygame.mixer.music.play(-1)
+
     position_x = width / 2
     position_y = height / 2
     direction_x = 0
     direction_y = 0
 
     points = 0
+
+    limit_colors = 170
+
+    color_red = limit_colors
+    color_green = limit_colors
+    color_blue = limit_colors
+
+    change_red = 1
+    change_green = 2
+    change_blue = 4
 
     no_apple_in_screen = True
 
@@ -1346,13 +1452,15 @@ def SnakeGame(mode, difficulty, wall):
 
     first_body = False
     apple_tam = 3
-    apple_parameter = apple_tam
+    apple_parameter = 3
 
     snake_body = []
 
     # ------------ pattern game configurations ------------ #
 
     while True:
+
+        no_auto_crash = True
 
         display.fill(background_color)
         message_to_screen("'space' to pause", BLACK, 760, 10, False, 1)
@@ -1411,29 +1519,35 @@ def SnakeGame(mode, difficulty, wall):
 
             if event.type == pygame.KEYDOWN:
 
-                if event.key == pygame.K_LEFT and direction_x != block_size:
-                    direction_x = -block_size
-                    direction_y = 0
-                    direction_head = 2
+                if position_x >= 0 and position_x < width and position_y >= 0 and position_y < height:
 
-                elif event.key == pygame.K_RIGHT and direction_x != -block_size:
-                    direction_x = block_size
-                    direction_y = 0
-                    direction_head = 0
+                    if event.key == pygame.K_LEFT and direction_x != block_size and no_auto_crash:
+                        direction_x = -block_size
+                        direction_y = 0
+                        direction_head = 2
+                        no_auto_crash = False
 
-                elif event.key == pygame.K_UP and direction_y != block_size:
-                    direction_y = -block_size
-                    direction_x = 0
-                    direction_head = 1
+                    elif event.key == pygame.K_RIGHT and direction_x != -block_size and no_auto_crash:
+                        direction_x = block_size
+                        direction_y = 0
+                        direction_head = 0
+                        no_auto_crash = False
 
-                elif event.key == pygame.K_DOWN and direction_y != -block_size:
-                    direction_y = block_size
-                    direction_x = 0
-                    direction_head = 3
+                    elif event.key == pygame.K_UP and direction_y != block_size and no_auto_crash:
+                        direction_y = -block_size
+                        direction_x = 0
+                        direction_head = 1
+                        no_auto_crash = False
 
-                elif event.key == pygame.K_SPACE:
+                    elif event.key == pygame.K_DOWN and direction_y != -block_size and no_auto_crash:
+                        direction_y = block_size
+                        direction_x = 0
+                        direction_head = 3
+                        no_auto_crash = False
 
-                    pause()
+                    elif event.key == pygame.K_SPACE:
+
+                        pause()
 
         position_x += direction_x
         position_y += direction_y
@@ -1547,6 +1661,7 @@ def pause():
     display.fill(WHITE)
     message_to_screen("Paused", BLACK, 0, -100, True, 6)
     message_to_screen("Press 'p' to unpause", BLACK, 0, 100, True, 5)
+    message_to_screen("Press 'q' to go to menu", BLACK, 0, 150, True, 5)
     pygame.display.update()
 
     while pause:
@@ -1556,6 +1671,15 @@ def pause():
             if event.key == pygame.K_p:
                 pause = False
                 pygame.mixer.music.unpause()
+
+            if event.key == pygame.K_q:
+                pygame.mixer.music.load("Sounds/menu.wav")
+                pygame.mixer.music.play(-1)
+                menu(0)
+
+            if event.type == pygame.QUIT:
+
+                end()
 
 def making_snake(snakelist, background_color, mode):
 
@@ -1632,18 +1756,19 @@ def about():
     message_to_screen("Victor Summer", BLACK, 50, 220, False, 5)
     message_to_screen("Frederico", BLACK, 50, 270, False, 5)
     message_to_screen("Guilherme", BLACK, 50, 320, False, 5)
+    message_to_screen("Instructor: Dr. Jucimar Jr", BLACK, 20, 400, False, 5)
 
-    squad_developers_1 = pygame.image.load('images/crash_load_minimized.png')
-    squad_developers_2 = pygame.image.load('images/developer_minimized.png')
-    uea_min = pygame.image.load('images/UEA.jpg')
-    est_min = pygame.image.load('images/EST.png')
+    squad_developers_1 = pygame.image.load('Images/crash_load_minimized.png')
+    squad_developers_2 = pygame.image.load('Images/developer_minimized.png')
+    uea_min = pygame.image.load('Images/UEA.jpg')
+    est_min = pygame.image.load('Images/EST.png')
 
     display.blit(squad_developers_1, [350, 20])
     display.blit(squad_developers_2, [350, 240])
     display.blit(uea_min, [630, 0])
     display.blit(est_min, [630, 200])
 
-    message_to_screen("All rights reserved", BLACK, 80, 400, False, 1)
+    message_to_screen("All rights reserved", BLACK, 80, 450, False, 1)
 
     message_to_screen("Back to menu", BLACK, 0, 200, True, 5)
     limit_colors = 170
@@ -1768,6 +1893,8 @@ def quit():
 
             if click[0] and one_click:
 
+                pygame.mixer.music.load("Sounds/menu.wav")
+                pygame.mixer.music.play(-1)
                 menu(0)
                 one_click = False
 
@@ -1808,4 +1935,4 @@ def end():
     quit()
     sys.exit()
 
-intro1()
+begin()
